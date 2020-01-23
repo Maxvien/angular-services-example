@@ -15,6 +15,6 @@ export class AccountCreateComponent implements OnInit {
   ngOnInit() {}
 
   onCreate(account: Account) {
-    this.accountsService.create(account);
+    this.accountsService.createAccount({ ...account });
   }
 }

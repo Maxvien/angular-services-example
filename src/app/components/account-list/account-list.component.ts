@@ -14,11 +14,12 @@ export class AccountListComponent implements OnInit {
   accountsSubscription: Subscription;
 
   constructor(private accountsService: AccountsService) {
-    this.accountsSubscription = this.accountsService.subscriber.subscribe(
-      (accountsState: AsyncState<Account[]>) => {
+    this.accountsSubscription = this.accountsService
+      .getAccounts()
+      .subscribe(accountsState => {
+        console.log(accountsState);
         this.accountsState = accountsState;
-      }
-    );
+      });
   }
 
   ngOnInit() {}
