@@ -1,0 +1,19 @@
+<fieldset>
+  <legend>Create a Account</legend>
+
+  <fieldset>
+    <legend>Name</legend>
+    <input type="text" [(ngModel)]="account.name" />
+  </fieldset>
+
+  <fieldset>
+    <legend>Status</legend>
+    <input type="radio" [(ngModel)]="account.status" value="active" /> Active
+    <br />
+    <input type="radio" [(ngModel)]="account.status" value="inactive" />
+    Inactive
+  </fieldset>
+
+  <br />
+  <button (click)="onCreate(account)">Create</button>
+</fieldset>
