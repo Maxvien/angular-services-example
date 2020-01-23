@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AccountModel } from "../../models/account.model";
+import { Account } from "../../models/accounts.model";
 import { AccountsService } from "../../services/accounts.service";
 
 @Component({
@@ -8,13 +8,13 @@ import { AccountsService } from "../../services/accounts.service";
   styleUrls: ["./account-create.component.css"]
 })
 export class AccountCreateComponent implements OnInit {
-  account: AccountModel = { name: "", status: "active" };
+  account: Account = { name: "", status: "active" };
 
   constructor(private accountsService: AccountsService) {}
 
   ngOnInit() {}
 
-  onCreate(account: AccountModel) {
+  onCreate(account: Account) {
     this.accountsService.create(account);
   }
 }

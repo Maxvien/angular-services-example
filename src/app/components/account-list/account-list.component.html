@@ -1,7 +1,7 @@
 <fieldset>
   <legend>Account List</legend>
 
-  <ul>
-    <li *ngFor="let account of accounts">{{ account.name }}</li>
+  <ul *ngIf="accountsState">
+    <li *ngFor="let account of accountsState.data">{{ account.name }}</li>
   </ul>
 </fieldset>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountsService } from "../../services/accounts.service";
-import { AccountModel } from "../../models/account.model";
+import { AsyncState } from "../../services/async.service";
+import { Account } from "../../models/accounts.model";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-account-list",
@@ -8,17 +10,20 @@ import { AccountModel } from "../../models/account.model";
   styleUrls: ["./account-list.component.css"]
 })
 export class AccountListComponent implements OnInit {
-  accounts: AccountModel[];
+  accountsState: AsyncState<Account[]>;
+  accountsSubscription: Subscription;
 
-  constructor(private accountsService: AccountsService) {}
-
-  ngOnInit() {
-    this.accountsService
-      .get()
-      .subscribe((accounts: AccountModel[]) => (this.accounts = accounts));
+  constructor(private accountsService: AccountsService) {
+    this.accountsSubscription = this.accountsService.subscriber.subscribe(
+      (accountsState: AsyncState<Account[]>) => {
+        this.accountsState = accountsState;
+      }
+    );
   }
 
+  ngOnInit() {}
+
   ngOnDestroy() {
-    this.accountsService.get().unsubscribe();
+    this.accountsSubscription.unsubscribe();
   }
 }
