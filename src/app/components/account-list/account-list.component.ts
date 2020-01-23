@@ -10,15 +10,15 @@ import { AccountModel } from "../../models/account.model";
 export class AccountListComponent implements OnInit {
   accounts: AccountModel[];
 
-  constructor(private accountsService: AccountsService) {
-    this.accountsService.accountsChange.subscribe(
-      (accounts: AccountModel[]) => (this.accounts = accounts)
-    );
+  constructor(private accountsService: AccountsService) {}
+
+  ngOnInit() {
+    this.accountsService
+      .get()
+      .subscribe((accounts: AccountModel[]) => (this.accounts = accounts));
   }
 
-  ngOnInit() {}
-
   ngOnDestroy() {
-    this.accountsService.accountsChange.unsubscribe();
+    this.accountsService.get().unsubscribe();
   }
 }
