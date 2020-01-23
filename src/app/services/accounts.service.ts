@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Account } from "../models/accounts.model";
-import { AsyncService } from "./async.service";
 import { BehaviorSubject } from "rxjs";
 
 interface State<Data> {
@@ -9,7 +8,7 @@ interface State<Data> {
   error: Error | null;
 }
 
-class AsyncStore<Data> {
+class AsyncState<Data> {
   private state: State<Data> = {
     loading: false,
     data: null,
@@ -20,11 +19,11 @@ class AsyncStore<Data> {
 
   readonly observable = this._state.asObservable();
 
-  getData() {
+  public getData() {
     return this.state.data;
   }
 
-  emitRequest(data?: Data | null) {
+  public emitRequest(data?: Data | null) {
     this.state.error = null;
     this.state.loading = true;
 
@@ -35,14 +34,14 @@ class AsyncStore<Data> {
     this._state.next({ ...this.state });
   }
 
-  emitSuccess(data: Data) {
+  public emitSuccess(data: Data) {
     this.state.loading = false;
     this.state.data = data;
 
     this._state.next({ ...this.state });
   }
 
-  emitFailure(error: Error) {
+  public emitFailure(error: Error) {
     this.state.loading = false;
     this.state.error = error;
 
@@ -54,25 +53,25 @@ class AsyncStore<Data> {
   providedIn: "root"
 })
 export class AccountsService {
-  accountsStore = new AsyncStore<Account[]>();
+  accountsState = new AsyncState<Account[]>();
 
-  // SyncStore
+  // SyncState
 
   createAccount(account: Account) {
     try {
-      this.accountsStore.emitRequest();
+      this.accountsState.emitRequest();
 
       setTimeout(() => {
-        const currentData = this.accountsStore.getData() || [];
+        const currentData = this.accountsState.getData() || [];
         const newData = [...currentData, account];
-        this.accountsStore.emitSuccess(newData);
+        this.accountsState.emitSuccess(newData);
       }, 1000);
     } catch (error) {
-      this.accountsStore.emitFailure(error);
+      this.accountsState.emitFailure(error);
     }
   }
 
   getAccounts() {
-    return this.accountsStore.observable;
+    return this.accountsState.observable;
   }
 }
