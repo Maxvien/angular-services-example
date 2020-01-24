@@ -1,20 +1,27 @@
-import { Injectable, EventEmitter } from "@angular/core";
-import { AccountModel } from "../models/account.model";
+import { Injectable } from "@angular/core";
+import { Account } from "../models/accounts.model";
+import { AsyncStore } from "rx-stores";
 
 @Injectable({
   providedIn: "root"
 })
 export class AccountsService {
-  accounts: AccountModel[] = [];
-  accountsChange = new EventEmitter<AccountModel[]>();
+  private accounts = new AsyncStore<Account[]>();
 
-  create(account: AccountModel) {
-    this.accounts.push({ ...account });
-    this.accountsChange.emit(this.accounts);
+  createAccount(account: Account) {
+    try {
+      this.accounts.emitRequest();
+
+      setTimeout(() => {
+        const currentData = this.accounts.getData() || [];
+        this.accounts.emitSuccess([...currentData, account]);
+      }, 1000);
+    } catch (error) {
+      this.accounts.emitFailure(error);
+    }
   }
 
-  get() {
-    this.accountsChange.emit(this.accounts);
-    return this.accountsChange;
+  getObservable() {
+    return this.accounts.getObservable();
   }
 }

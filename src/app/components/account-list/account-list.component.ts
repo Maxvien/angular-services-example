@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountsService } from "../../services/accounts.service";
-import { AccountModel } from "../../models/account.model";
+
+// https://ultimatecourses.com/blog/angular-ngif-async-pipe
 
 @Component({
   selector: "app-account-list",
@@ -8,17 +9,8 @@ import { AccountModel } from "../../models/account.model";
   styleUrls: ["./account-list.component.css"]
 })
 export class AccountListComponent implements OnInit {
-  accounts: AccountModel[];
-
   constructor(private accountsService: AccountsService) {}
+  accounts$ = this.accountsService.getObservable();
 
-  ngOnInit() {
-    this.accountsService
-      .get()
-      .subscribe((accounts: AccountModel[]) => (this.accounts = accounts));
-  }
-
-  ngOnDestroy() {
-    this.accountsService.get().unsubscribe();
-  }
+  ngOnInit() {}
 }

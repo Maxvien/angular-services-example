@@ -1,7 +1,11 @@
 <fieldset>
   <legend>Account List</legend>
 
-  <ul>
-    <li *ngFor="let account of accounts">{{ account.name }}</li>
+  <ul *ngIf="accounts$ | async as accounts; else loading">
+    <p *ngIf="accounts.loading === true">Loading...</p>
+
+    <li *ngFor="let account of accounts.data">
+      {{ account.name }}
+    </li>
   </ul>
 </fieldset>
