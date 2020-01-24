@@ -15,7 +15,7 @@ export class AccountListComponent implements OnInit {
 
   constructor(private accountsService: AccountsService) {
     this.accountsSubscription = this.accountsService
-      .getAccounts()
+      .getAccountsObservable()
       .subscribe(accountsState => {
         console.log(accountsState);
         this.accountsState = accountsState;
