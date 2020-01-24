@@ -7,12 +7,13 @@ import { AppComponent } from "./app.component";
 import { AccountListComponent } from "./components/account-list/account-list.component";
 import { AccountCreateComponent } from "./components/account-create/account-create.component";
 
-import { AccountsService } from "./services/accounts.service";
+// import { AccountsService } from "./services/accounts.service";
+// Because of @Injectable({ providedIn: "root" })
 
 @NgModule({
   declarations: [AppComponent, AccountListComponent, AccountCreateComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [AccountsService],
+  // providers: [AccountsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
