@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { Account } from "../models/accounts.model";
 import { AsyncStore } from "rx-stores";
 
+// https://codinglatte.com/posts/angular/angular-async-pipe-handle-errors/
+
 @Injectable({
   providedIn: "root"
 })
