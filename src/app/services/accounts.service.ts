@@ -6,7 +6,7 @@ import { AsyncStore } from "rx-stores";
   providedIn: "root"
 })
 export class AccountsService {
-  accounts = new AsyncStore<Account[]>();
+  private accounts = new AsyncStore<Account[]>();
 
   createAccount(account: Account) {
     try {
@@ -14,8 +14,7 @@ export class AccountsService {
 
       setTimeout(() => {
         const currentData = this.accounts.getData() || [];
-        const newData = [...currentData, account];
-        this.accounts.emitSuccess(newData);
+        this.accounts.emitSuccess([...currentData, account]);
       }, 1000);
     } catch (error) {
       this.accounts.emitFailure(error);
