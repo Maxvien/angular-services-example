@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountsService } from "../../services/accounts.service";
-import { Account } from "../../models/accounts.model";
-import { Subscription } from "rxjs";
-import { AsyncState } from "rx-stores";
+
+// https://ultimatecourses.com/blog/angular-ngif-async-pipe
 
 @Component({
   selector: "app-account-list",
@@ -10,20 +9,8 @@ import { AsyncState } from "rx-stores";
   styleUrls: ["./account-list.component.css"]
 })
 export class AccountListComponent implements OnInit {
-  accounts: AsyncState<Account[]>;
-  accountsSubscription: Subscription;
-
-  constructor(private accountsService: AccountsService) {
-    this.accountsSubscription = this.accountsService
-      .getAccountsObservable()
-      .subscribe(accounts => {
-        this.accounts = accounts;
-      });
-  }
+  constructor(private accountsService: AccountsService) {}
+  accounts$ = this.accountsService.getObservable();
 
   ngOnInit() {}
-
-  ngOnDestroy() {
-    this.accountsSubscription.unsubscribe();
-  }
 }

@@ -21,7 +21,7 @@ export class AccountsService {
     }
   }
 
-  getAccountsObservable() {
+  getObservable() {
     return this.accounts.getObservable();
   }
 }
