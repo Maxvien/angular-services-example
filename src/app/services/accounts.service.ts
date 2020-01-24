@@ -8,7 +8,7 @@ import { AsyncStore } from "rx-stores";
 export class AccountsService {
   private accounts = new AsyncStore<Account[]>();
 
-  createAccount(account: Account) {
+  public createAccount(account: Account) {
     try {
       this.accounts.emitRequest();
 
@@ -21,7 +21,7 @@ export class AccountsService {
     }
   }
 
-  getObservable() {
+  public getObservable() {
     return this.accounts.getObservable();
   }
 }
